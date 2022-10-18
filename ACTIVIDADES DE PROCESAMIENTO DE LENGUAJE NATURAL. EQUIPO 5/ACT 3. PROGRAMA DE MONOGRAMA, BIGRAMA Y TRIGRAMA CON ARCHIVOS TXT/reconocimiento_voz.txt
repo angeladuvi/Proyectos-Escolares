@@ -1,0 +1,27 @@
+RESUMEN
+
+El presente trabajo muestra la implementación de un modelo para compresión de voz a través del uso de técnicasdigitales
+para el procesamiento de señales y de la aplicación de formatos de compresión de imágenes. 
+Este trabajo se basa en la hipótesis que la compresión de la voz bajo este esquema logra una reducción signific
+ativade la cantidad de bytes y de la consiguiente disminución de la velocidad en bit/s necesariapara la transmisión
+de la voz. La filosofía del modelo se centra en la conversión de tramas de vozen imágenes comprimidas las que
+posteriormente son transmitidas a través del canal, para luego recuperar la trama de voz en el receptor
+a través de un proceso de síntesis. Para ello se emplean técnicas tanto en el dominio del tiempo como en la frecuencia,
+mediante la aplicación de filtros digitales IIR (Infinite Impulse Response), de la FFT (Fast Fourier Transform), 
+y de variados formatos de compresión de imágenes.
+
+Palabras clave: Compresión, Filtros IIR, FFT, JPEG, PNG, TIFF, MOS.
+
+ABSTRACT
+
+The present work shows the implementation of a model for compression of voice through the use of digital
+ techniques for the signal processing and application of formats of compression of images. This work is based
+ on the hypothesis that the compression of the voice under this scheme obtains a significant reduction of the
+ amount of bytes and the consequent reduction of the necessary speed in bit/s for voice transmission. 
+The philosophy of the model is centered in the conversion of frames of voice in compressed images, that later
+ are transmitted through the channel, for later recovery, the frame of voice in the receiver, through a
+ synthesis process. In order to obtain this, techniques in the dominion of time like in the frequency,
+ are used by means of the application of IIR digital filters (Infinite Impulse Response), 
+of FFT (Fast Fourier Transform), and of varied formats of image compression.
+
+Keywords: Compression, Filters IIR, FFT, JPEG, PNG, TIFF, MOS.

@@ -1,0 +1,104 @@
+%Neurona backpropagation tipo tansig,pureline y lonsig
+clear all;clc;
+disp('Backpropagation(2 neuronas distintas)');
+disp('Valores iniciales');
+%Declaracion de patrones
+P=[-2 -1.2 -0.4 -0.4 1.2 2]
+t=[-1 -0.809 -0.309 -0.309 0.809 1]
+%calculo de los estados finales
+% for i=1:8
+% t(i) = sin(pi/4*P(i));
+% end
+% t
+%valores iniciales
+sigma=0.;
+Ws=[0.1 0.3];     
+Bs=0.8;     
+Wo1=[-0.2 0.5];
+Bo1=[0.7 -0.2];
+Wo2=[-0.2 0.5];
+Bo2=[0.7 -0.2];
+fprintf('sigma = %f\n',sigma);
+fprintf('Ws= %f %f\n',Ws); 
+fprintf('Bs = %f\n',Bs);
+fprintf('Wo(n1)= %f %f\n',Wo1);
+fprintf('Bo(n1)= %f %f\n',Bo1);
+fprintf('Wo(n2)= %f %f\n',Wo2);
+fprintf('Bo(n2)= %f %f\n',Bo2);
+% procedimiento
+E=0; 
+ite=1; 
+aux=0; 
+v=0;
+% proceso
+while (aux<=6) || (v<=6) %  condiciones por que son 8 patrones presentados
+  disp('________________________________________________');
+  fprintf('Iteración %d\n',ite);
+  for i=1:6
+  fprintf('Patrón %d\n',i);
+  disp('Capa Oculta')
+  % primera Capa oculta
+      Ao1 = (Wo1*P(i))+Bo1; 
+      Ao1 = [(exp(Ao1(1)) - exp(-Ao1(1)))/(exp(Ao1(1)) + exp(-Ao1(1))) (exp(Ao1(2)) - exp(-Ao1(2)))/(exp(Ao1(2)) + exp(-Ao1(2))) ];
+      fprintf('a(%d)n1= [%f %f]\n',i,Ao1);
+  %Segunda capa oculta 
+      Ao2=(Wo2*P(i))+Bo2;  
+      Ao2=[1/(1+exp(-Ao2(1))) 1/(1+exp(-Ao2(2)))];
+      fprintf('a(%d)n2= [%f %f]\n',i,Ao2);
+  disp('Capa Salida')
+  %  Capa de salida 
+       As = (Ws*Ao1') +(Ws*Ao2')+ Bs;
+       fprintf('as(%d)= %f\n',i,As);
+  % calculo del error
+       e = t(i)-As;
+       fprintf('e(%d) = %f\n',i,e);
+% if(e<=-0.100000 || e>=0.100000) 
+if(-0.100000<= e >=0.100000) 
+  %derivadas
+       %pureline
+       fs = 1;
+       fprintf('f(pureline) = %f\n',fs);
+       %tansig
+       fn1=[(1 - Ao1(1)^2)  (1-Ao1(2)^2)];
+       fprintf('f(tansig) = %f %f\n',fn1);
+       %logsig
+       fn2=[(Ao2(1)*(1 - Ao2(1)))  (Ao2(2)*(1-Ao2(2)))];
+       fprintf('f(logsig) = %f %f\n',fn2);
+   %Sensitividades
+       Ss=-2*fs*e;
+       fprintf('Ss = %f\n',Ss);
+       So1 = [fn1(1)*Ws(1)*Ss  fn1(2)*Ws(2)*Ss];
+       fprintf('So(n1)= %f %f\n',So1);
+       So2=[fn2(1)*Ws(1)*Ss  fn2(2)*Ws(2)*Ss];
+       fprintf('So(n2)= %f %f\n',So2);
+   %Ajuste pesos y ganancias
+       Ws = Ws - sigma*(Ss*Ao1+Ss*Ao2);
+       fprintf('Ws= %f %f\n',Ws); 
+       Bs = Bs - sigma*Ss;
+       fprintf('Bs = %f\n',Bs);
+       Wo1=Wo1 - sigma*So1*P(i);
+       fprintf('Wo(n1)= %f %f\n',Wo1);
+       Bo1=Bo1 - sigma+So1;
+       fprintf('Bo(n1)= %f %f\n',Bo1);
+       Wo2=Wo2 - sigma*So2*P(i);
+       fprintf('Wo(n2)= %f %f\n',Wo2);
+       Bo2=Bo2 - sigma*So2;
+       fprintf('Bo(n2)= %f %f\n',Bo2);
+       v=0;
+       disp('------------------');
+  else 
+       v=v+1;%condicion para cuanando error es pequeño   
+       disp('------------------');
+  end
+  if i==6
+%       v=0
+       ite = ite+1; % numero de iteraciones para cada patron cuando ya pasaron todos los patrones 
+       c=abs(abs(E)-abs(e)) ;% diferencia entre errores
+       if c<=.02 % rango para el error
+        aux=aux+1;
+       else aux=0;
+        E=e; 
+       end
+  end
+  end
+end
